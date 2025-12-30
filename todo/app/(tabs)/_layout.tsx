@@ -14,6 +14,7 @@ export default function TabLayout() {
         options={{
           title: "할일",
           tabBarIcon: ({ color, size }) => <Ionicons name="checkbox-outline" size={size} color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -21,6 +22,7 @@ export default function TabLayout() {
         options={{
           title: "카테고리",
           tabBarIcon: ({ color, size }) => <Ionicons name="grid-outline" size={size} color={color} />,
+          headerTitleAlign: "center",
         }}
       />
       <Tabs.Screen
@@ -28,6 +30,7 @@ export default function TabLayout() {
         options={{
           title: "설정",
           tabBarIcon: ({ color, size }) => <Ionicons name="settings-outline" size={size} color={color} />,
+          headerTitleAlign: "center",
         }}
       />
     </Tabs>
