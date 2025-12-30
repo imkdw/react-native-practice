@@ -1,8 +1,8 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import "react-native-reanimated";
 
-import App from "@/app/App";
-import { useColorScheme } from "@/hooks/use-color-scheme";
+import App from "@/docs/app/App";
+import { useColorScheme } from "@/docs/hooks/use-color-scheme";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

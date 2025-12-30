@@ -1,8 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 import { StyleSheet, View } from "react-native";
 
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
+import { ThemedText } from "@/docs/components/themed-text";
+import { ThemedView } from "@/docs/components/themed-view";
 
 export default function ProfileScreen() {
   const { name } = useLocalSearchParams<{ name: string }>();
@@ -10,12 +10,8 @@ export default function ProfileScreen() {
   return (
     <ThemedView style={styles.container}>
       <View style={styles.content}>
-        <ThemedText type="title">
-          {name ? `${name}'s Profile` : "Profile"}
-        </ThemedText>
-        <ThemedText style={styles.description}>
-          This is the profile screen. You navigated here from Home!
-        </ThemedText>
+        <ThemedText type="title">{name ? `${name}'s Profile` : "Profile"}</ThemedText>
+        <ThemedText style={styles.description}>This is the profile screen. You navigated here from Home!</ThemedText>
       </View>
     </ThemedView>
   );
