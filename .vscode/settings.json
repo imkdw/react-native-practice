@@ -5,5 +5,9 @@
     "source.sortMembers": "explicit"
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifierEnding": "auto"
+  "typescript.preferences.importModuleSpecifierEnding": "auto",
+  "cSpell.words": [
+    "luffy",
+    "setflex"
+  ]
 }
