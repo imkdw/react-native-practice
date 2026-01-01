@@ -10,7 +10,7 @@ import { Todo, TodoFilter } from "@/types/todo.type";
 import { Ionicons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,9 +18,24 @@ export default function TodoScreen() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filter, setFilter] = useState<TodoFilter>(TODO_FILTERS.ALL);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const isFocused = useIsFocused();
 
   const hasCategories = categories.length > 0;
+
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => {
+      if (filter !== TODO_FILTERS.ALL && todo.status !== filter) {
+        return false;
+      }
+
+      if (selectedCategory && selectedCategory !== "ALL" && todo.categoryId !== selectedCategory) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [todos, filter, selectedCategory]);
 
   useEffect(() => {
     if (isFocused) {
@@ -88,9 +103,9 @@ export default function TodoScreen() {
     <SafeAreaView style={styles.safeArea}>
       <TodoListHeader />
       <FilterTabs selected={filter} onSelect={handleFilter} />
-      <CategoryDropdown />
+      <CategoryDropdown selected={selectedCategory} onSelect={setSelectedCategory} />
       <View style={styles.todos}>
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <TodoItem key={todo.id} todo={todo} onToggle={handleToggle} onMore={handleMore} />
         ))}
       </View>

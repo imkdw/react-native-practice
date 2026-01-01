@@ -4,9 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function CategoryDropdown() {
+interface Props {
+  selected: string | null;
+  onSelect: (categoryId: string | null) => void;
+}
+
+export default function CategoryDropdown({ selected, onSelect }: Props) {
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export default function CategoryDropdown() {
                 key={category.id}
                 style={[styles.item]}
                 onPress={() => {
-                  setSelected(category.id);
+                  onSelect(category.id);
                   setVisible(false);
                 }}
               >
