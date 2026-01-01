@@ -1,5 +1,5 @@
 import CategoryPickerModal from "@/components/create-todo/CategoryPickerModal";
-import CreateTodoHeader from "@/components/create-todo/CreateTodoHeader";
+import TodoHeader from "@/components/create-todo/CreateTodoHeader";
 import DateAlarmSection from "@/components/create-todo/DateAlarmSection";
 import FormFooter from "@/components/create-todo/FormFooter";
 import { getCategories } from "@/services/category.service";
@@ -77,7 +77,7 @@ export default function EditTodoScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <CreateTodoHeader title="할 일 수정" onBack={handleCancel} />
+      <TodoHeader title="할 일 수정" onBack={handleCancel} />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* 제목 */}

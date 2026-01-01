@@ -6,7 +6,7 @@ type Props = {
   onBack: () => void;
 };
 
-export default function CreateTodoHeader({ title, onBack }: Props) {
+export default function TodoHeader({ title, onBack }: Props) {
   return (
     <>
       <View style={styles.header}>

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function TodoListHeader() {
   return (
@@ -10,10 +10,6 @@ export default function TodoListHeader() {
         </View>
         <Text style={styles.title}>My Tasks</Text>
       </View>
-
-      <TouchableOpacity>
-        <Ionicons name="search-outline" size={26} color="#000" />
-      </TouchableOpacity>
     </View>
   );
 }
