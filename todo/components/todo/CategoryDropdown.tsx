@@ -1,20 +1,17 @@
+import { CATEGORIES } from "@/constants/category.const";
 import { Category } from "@/types/category.type";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const TEMP_CATEGORIES: Category[] = [
-  { id: "ALL", label: "전체" },
-  { id: "WORK", label: "업무" },
-  { id: "PERSONAL", label: "개인" },
-  { id: "SHOPPING", label: "쇼핑" },
-];
+const ALL_CATEGORY: Category = { id: "ALL", label: "전체", color: "#EF4444" };
+const DROPDOWN_CATEGORIES = [ALL_CATEGORY, ...CATEGORIES];
 
 export default function CategoryDropdown() {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
 
-  const selectedLabel = selected ? TEMP_CATEGORIES.find((c) => c.id === selected)?.label : "카테고리 선택";
+  const selectedLabel = selected ? DROPDOWN_CATEGORIES.find((c) => c.id === selected)?.label : "카테고리 선택";
 
   return (
     <View style={styles.container}>
@@ -26,7 +23,7 @@ export default function CategoryDropdown() {
       <Modal visible={visible} transparent animationType="fade" onRequestClose={() => setVisible(false)}>
         <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={() => setVisible(false)}>
           <View style={styles.dropdown}>
-            {TEMP_CATEGORIES.map((item) => (
+            {DROPDOWN_CATEGORIES.map((item) => (
               <TouchableOpacity
                 key={item.id}
                 style={styles.item}

@@ -8,3 +8,12 @@ export type TodoFilterItem = {
   key: TodoFilter;
   label: string;
 };
+
+export type Todo = {
+  id: string;
+  title: string;
+  description: string;
+  categoryId: string;
+  dueDate: string;
+  status: TodoStatus;
+};

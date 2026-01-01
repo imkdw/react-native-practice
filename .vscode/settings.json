@@ -8,6 +8,8 @@
   "typescript.preferences.importModuleSpecifierEnding": "auto",
   "cSpell.words": [
     "luffy",
+    "Pressable",
     "setflex"
-  ]
+  ],
+  "discord.enabled": true
 }

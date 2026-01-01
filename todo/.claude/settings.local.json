@@ -5,7 +5,18 @@
       "WebFetch(domain:github.com)",
       "Bash(pnpm add:*)",
       "WebSearch",
-      "Bash(pnpm remove:*)"
+      "Bash(pnpm remove:*)",
+      "mcp__plugin_serena_serena__list_dir",
+      "mcp__plugin_serena_serena__activate_project",
+      "mcp__plugin_serena_serena__read_file",
+      "mcp__plugin_serena_serena__replace_content",
+      "mcp__plugin_serena_serena__create_text_file",
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:www.nativewind.dev)",
+      "Bash(npx expo run:android:*)",
+      "Bash(npm view:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(npx expo:*)"
     ]
   }
 }
