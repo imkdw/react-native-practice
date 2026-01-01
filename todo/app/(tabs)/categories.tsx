@@ -1,23 +1,38 @@
 import CategoryItem from "@/components/category/CategoryItem";
 import CategoryModal from "@/components/category/CategoryModal";
+import {
+  addCategory,
+  deleteCategory as deleteCategoryService,
+  getCategories,
+  updateCategory,
+} from "@/services/category.service";
 import { Category } from "@/types/category.type";
 import { generateUUID } from "@/utils/uuid.util";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-const INITIAL_CATEGORIES: Category[] = [
-  { id: "1", label: "개인", color: "#4ADE80" },
-  { id: "2", label: "직장", color: "#3B82F6" },
-  { id: "3", label: "건강", color: "#F59E0B" },
-  { id: "4", label: "학습", color: "#6366F1" },
-  { id: "5", label: "재정", color: "#14B8A6" },
-];
+import { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function CategoriesScreen() {
-  const [categories, setCategories] = useState<Category[]>(INITIAL_CATEGORIES);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const loadCategories = useCallback(async () => {
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch (error) {
+      Alert.alert("오류", "카테고리를 불러오는데 실패했습니다.");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
 
   const openAddModal = () => {
     setEditingCategory(null);
@@ -29,23 +44,31 @@ export default function CategoriesScreen() {
     setModalVisible(true);
   };
 
-  const handleSave = (name: string, color: string) => {
+  const handleSave = async (name: string, color: string) => {
     if (!name.trim()) {
       Alert.alert("오류", "카테고리 이름을 입력해주세요.");
       return;
     }
 
-    if (editingCategory) {
-      setCategories((prev) =>
-        prev.map((cat) => (cat.id === editingCategory.id ? { ...cat, label: name.trim(), color } : cat))
-      );
-    } else {
-      const newCategory: Category = {
-        id: generateUUID(),
-        label: name.trim(),
-        color,
-      };
-      setCategories((prev) => [...prev, newCategory]);
+    try {
+      if (editingCategory) {
+        const updated = await updateCategory(editingCategory.id, {
+          label: name.trim(),
+          color,
+        });
+        setCategories(updated);
+      } else {
+        const newCategory: Category = {
+          id: generateUUID(),
+          label: name.trim(),
+          color,
+        };
+        const updated = await addCategory(newCategory);
+        setCategories(updated);
+      }
+    } catch (error) {
+      Alert.alert("오류", "카테고리 저장에 실패했습니다.");
+      console.error(error);
     }
 
     setModalVisible(false);
@@ -58,10 +81,26 @@ export default function CategoriesScreen() {
       {
         text: "삭제",
         style: "destructive",
-        onPress: () => setCategories((prev) => prev.filter((cat) => cat.id !== categoryId)),
+        onPress: async () => {
+          try {
+            const updated = await deleteCategoryService(categoryId);
+            setCategories(updated);
+          } catch (error) {
+            Alert.alert("오류", "카테고리 삭제에 실패했습니다.");
+            console.error(error);
+          }
+        },
       },
     ]);
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#3B82F6" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -94,6 +133,12 @@ export default function CategoriesScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#EFF6FF",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#EFF6FF",

@@ -1,17 +1,25 @@
-import { CATEGORIES } from "@/constants/category.const";
+import { getCategories } from "@/services/category.service";
 import { Category } from "@/types/category.type";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-const ALL_CATEGORY: Category = { id: "ALL", label: "전체", color: "#EF4444" };
-const DROPDOWN_CATEGORIES = [ALL_CATEGORY, ...CATEGORIES];
 
 export default function CategoryDropdown() {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const selectedLabel = selected ? DROPDOWN_CATEGORIES.find((c) => c.id === selected)?.label : "카테고리 선택";
+  useEffect(() => {
+    const loadCategories = async () => {
+      const categories = await getCategories();
+      const ALL_CATEGORY: Category = { id: "ALL", label: "전체", color: "#EF4444" };
+      setCategories([ALL_CATEGORY, ...categories]);
+    };
+
+    loadCategories();
+  }, []);
+
+  const selectedLabel = selected ? categories.find((c) => c.id === selected)?.label : "카테고리 선택";
 
   return (
     <View style={styles.container}>
@@ -23,16 +31,16 @@ export default function CategoryDropdown() {
       <Modal visible={visible} transparent animationType="fade" onRequestClose={() => setVisible(false)}>
         <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={() => setVisible(false)}>
           <View style={styles.dropdown}>
-            {DROPDOWN_CATEGORIES.map((item) => (
+            {categories.map((category) => (
               <TouchableOpacity
-                key={item.id}
-                style={styles.item}
+                key={category.id}
+                style={[styles.item]}
                 onPress={() => {
-                  setSelected(item.id);
+                  setSelected(category.id);
                   setVisible(false);
                 }}
               >
-                <Text style={styles.itemText}>{item.label}</Text>
+                <Text style={styles.itemText}>{category.label}</Text>
               </TouchableOpacity>
             ))}
           </View>

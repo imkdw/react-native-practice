@@ -1,6 +1,6 @@
 import Badge from "@/components/common/Badge";
-import { getCategoryById } from "@/constants/category.const";
 import { TODO_STATUS } from "@/constants/todo.const";
+import { findCategoryById } from "@/services/category.service";
 import { Todo } from "@/types/todo.type";
 import { Ionicons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
@@ -12,9 +12,9 @@ interface Props {
   onMore: (id: string) => void;
 }
 
-export default function TodoItem({ todo, onToggle, onMore }: Props) {
+export default async function TodoItem({ todo, onToggle, onMore }: Props) {
   const isDone = todo.status === TODO_STATUS.DONE;
-  const category = getCategoryById(todo.categoryId)!;
+  const category = await findCategoryById(todo.categoryId);
 
   return (
     <View style={styles.container}>
