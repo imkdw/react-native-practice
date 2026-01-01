@@ -1,5 +1,5 @@
 import { TODO_FILTERS } from "@/constants/todo.const";
-import { TodoFilter, TodoFilterItem } from "@/types/todo.types";
+import { TodoFilter, TodoFilterItem } from "@/types/todo.type";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
