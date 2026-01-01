@@ -16,4 +16,5 @@ export type Todo = {
   categoryId: string;
   dueDate: string;
   status: TodoStatus;
+  notification: boolean;
 };

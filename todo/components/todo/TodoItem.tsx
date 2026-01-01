@@ -1,9 +1,11 @@
 import Badge from "@/components/common/Badge";
 import { TODO_STATUS } from "@/constants/todo.const";
 import { findCategoryById } from "@/services/category.service";
+import { Category } from "@/types/category.type";
 import { Todo } from "@/types/todo.type";
 import { Ionicons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
@@ -12,9 +14,21 @@ interface Props {
   onMore: (id: string) => void;
 }
 
-export default async function TodoItem({ todo, onToggle, onMore }: Props) {
+export default function TodoItem({ todo, onToggle, onMore }: Props) {
+  const [category, setCategory] = useState<Category | null>(null);
   const isDone = todo.status === TODO_STATUS.DONE;
-  const category = await findCategoryById(todo.categoryId);
+
+  useEffect(() => {
+    const loadCategory = async () => {
+      try {
+        const category = await findCategoryById(todo.categoryId);
+        setCategory(category);
+      } catch {
+        setCategory(null);
+      }
+    };
+    loadCategory();
+  }, [todo.categoryId]);
 
   return (
     <View style={styles.container}>
@@ -32,7 +46,7 @@ export default async function TodoItem({ todo, onToggle, onMore }: Props) {
       <View style={styles.content}>
         <Text style={[styles.title, isDone && styles.titleDone]}>{todo.title}</Text>
         <Text style={styles.description}>{todo.description}</Text>
-        <Badge text={category.label} color={category.color} />
+        {category && <Badge text={category.label} color={category.color} />}
         <View style={styles.dateRow}>
           <Ionicons name="calendar-outline" size={14} color="#6B7280" />
           <Text style={styles.dateText}>{todo.dueDate}</Text>
