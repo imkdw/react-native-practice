@@ -1,4 +1,4 @@
-import CategoryDropdown from "@/components/todo/CategoryDropdown";
+import CategoryDropdown from "@/components/category/CategoryDropdown";
 import FilterTabs from "@/components/todo/FilterTabs";
 import TodoItem from "@/components/todo/TodoItem";
 import TodoListHeader from "@/components/TodoListHeader";

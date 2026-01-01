@@ -25,14 +25,6 @@ export default function TabLayout() {
           headerTitleAlign: "center",
         }}
       />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "설정",
-          tabBarIcon: ({ color, size }) => <Ionicons name="settings-outline" size={size} color={color} />,
-          headerTitleAlign: "center",
-        }}
-      />
     </Tabs>
   );
 }
