@@ -1,0 +1,30 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "compile": "tsc && copyfiles -f src/preload.js src/renderer.js index.html dist",
+    "start": "npm run compile && cross-env DEBUG=true electron .",
+    "watch": "tsc --watch",
+    "dev": "npm run compile && electronmon dist/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.1",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "cross-env": "^10.1.0",
+    "electron": "^39.2.7",
+    "electron-builder": "^26.0.12",
+    "electronmon": "^2.0.3",
+    "typescript": "^5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "electron-winstaller"
+    ]
+  }
+}
